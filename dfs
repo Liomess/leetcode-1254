@@ -1,0 +1,37 @@
+class Solution:
+    def closedIsland(self, grid: List[List[int]]) -> int:
+        def dfs(i,j,grid,visited,m,n):
+            visited[i][j]=True
+            if i+1<n and grid[i+1][j]==0 and visited[i+1][j]==False:
+                dfs(i+1,j,grid,visited,m,n)
+            if j+1<m and grid[i][j+1]==0 and visited[i][j+1]==False:
+                dfs(i,j+1,grid,visited,m,n)
+            if i-1>=0 and grid[i-1][j]==0 and visited[i-1][j]==False:
+                dfs(i-1,j,grid,visited,m,n)
+            if j-1>=0 and grid[i][j-1]==0 and visited[i][j-1]==False:
+                dfs(i,j-1,grid,visited,m,n)
+        def dfs1(i,j,grid,visited,m,n):
+            grid[i][j]=1
+            visited[i][j]=True
+            if i+1<n and grid[i+1][j]==0 and visited[i+1][j]==False:
+                dfs1(i+1,j,grid,visited,m,n)
+            if j+1<m and grid[i][j+1]==0 and visited[i][j+1]==False:
+                dfs1(i,j+1,grid,visited,m,n)
+            if i-1>=0 and grid[i-1][j]==0 and visited[i-1][j]==False:
+                dfs1(i-1,j,grid,visited,m,n)
+            if j-1>=0 and grid[i][j-1]==0 and visited[i][j-1]==False:
+                dfs1(i,j-1,grid,visited,m,n)
+        n=len(grid)
+        m=len(grid[0])
+        visited=[[False for i in range(m)]for j in range(n)]
+        count=0
+        for i in range(n):
+            for j in range(m):
+                if (i==0 or j==0 or i==n-1 or j==m-1) and (grid[i][j]==0) and (visited[i][j]==False):
+                    dfs1(i,j,grid,visited,m,n)
+        for i in range(n):
+            for j in range(m):
+                if grid[i][j]==0 and visited[i][j]==False:
+                    dfs(i,j,grid,visited,m,n)
+                    count+=1
+        return count
